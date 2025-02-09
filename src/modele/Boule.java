@@ -1,3 +1,6 @@
+package modele;
+;
+
 /**
  * Gestion de la boule
  *
