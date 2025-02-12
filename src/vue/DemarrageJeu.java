@@ -1,94 +1,61 @@
 package vue;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import controleur.Controle;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class DemarrageJeu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtStart;
-	private JTextField txtConnect;
-	private JTextField txtIpServer;
 	private JTextField txtIP;
-
+	private Controle controle; // Déclaration de la variable d'instance
+	
+	
 	/**
-	 * Launch the application.
+	 * clic sur le bouton Start pour lancer le jeu
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DemarrageJeu frame = new DemarrageJeu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private void btnStart_clic() {
+		// Lors du clic sur bntStart, envoie "serveur" au contrôleur pour démarrer un serveur
+		this.controle.evenementEntreeJeu("serveur");
 	}
 	
 	/**
 	 * clic sur le bouton Connect pour se connecter à un serveur 
 	 */
 	private void btnConnect_clic() {
-		// Ouvre la fenêtre ChoixPersonnage
-		(new ChoixPersonnage()).setVisible(true);
-		// Ferme la fenêtre actuelle
-		this.dispose();
+		// Passe par Controle pour savoir quelle fenêtre ouvrir et fermer l'actuelle et récup
+        this.controle.evenementEntreeJeu(this.txtIP.getText());
 	}	
 	
 	/**
-	 * clic sur le bouton Start pour lancer le jeu
+	 * Clic sur le bouton Exit pour quitter le jeu
 	 */
-	private void btnStart_clic() {
-		// Ouvre la fenêtre de l'arène
-		(new Arene()).setVisible(true);
-		// Ferme la fenêtre actuelle
-		this.dispose();
+	private void btnExit_clic() {
+		System.exit(0);
 	}
 
 	/**
 	 * Create the frame.
+	 * @param controle 
 	 */
-	public DemarrageJeu() {
+	public DemarrageJeu(Controle controle) {
+		this.setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 507, 274);
+		setBounds(100, 100, 548, 301);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		txtStart = new JTextField();
-		txtStart.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txtStart.setText("Start a server :");
-		txtStart.setBounds(24, 25, 129, 20);
-		contentPane.add(txtStart);
-		txtStart.setColumns(10);
-		
-		txtConnect = new JTextField();
-		txtConnect.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txtConnect.setText("Connect an existing server :");
-		txtConnect.setBounds(24, 103, 244, 20);
-		contentPane.add(txtConnect);
-		txtConnect.setColumns(10);
-		
-		txtIpServer = new JTextField();
-		txtIpServer.setFont(new Font("Tahoma", Font.BOLD, 16));
-		txtIpServer.setText("IP server :");
-		txtIpServer.setBounds(24, 145, 96, 20);
-		contentPane.add(txtIpServer);
-		txtIpServer.setColumns(10);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
@@ -115,7 +82,7 @@ public class DemarrageJeu extends JFrame {
 		JButton btnExit = new JButton("Exit");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				btnExit_clic();
 			}
 		});
 		btnExit.setBackground(SystemColor.activeCaption);
@@ -129,5 +96,23 @@ public class DemarrageJeu extends JFrame {
 		txtIP.setBounds(130, 147, 138, 20);
 		contentPane.add(txtIP);
 		txtIP.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Start a server : ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setBounds(24, 26, 129, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Connect an existing server :");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(24, 107, 244, 14);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("IP server :");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(24, 147, 84, 17);
+		contentPane.add(lblNewLabel_2);
+		
+		// récupération de l'instance de Controle
+		this.controle = controle;
 	}
 }
