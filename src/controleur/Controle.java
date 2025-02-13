@@ -12,7 +12,15 @@ import vue.DemarrageJeu;
  */
 public class Controle implements AsyncResponse {
 	
-	private DemarrageJeu frmEntreeJeu ;
+	/**
+	 * Creation d'une constante PORT pour mémoriser la valeur du port (6666) et utiliser cette constante
+	 */
+	private static final int PORT = 6666;
+	
+	/**
+	 * Frames DemarrageJeu, Arene et ChoixPersonnage
+	 */
+	private DemarrageJeu frmDemarrageJeu ;
 	
 	private Arene frmArene;
 	
@@ -23,11 +31,7 @@ public class Controle implements AsyncResponse {
 	 */
 	private String typeJeu;
 	
-	/**
-	 * Creation d'une constante PORT pour mémoriser la valeur du port (6666) et utiliser cette constante
-	 */
-	private static final int PORT = 6666;
-	
+
 
 	 /**
      * Méthode de démarrage
@@ -40,19 +44,20 @@ public class Controle implements AsyncResponse {
      * Constructeur
      */
     private Controle() {
-    	    this.frmEntreeJeu = new DemarrageJeu(this);
-			this.frmEntreeJeu.setVisible(true);
+    	    this.frmDemarrageJeu = new DemarrageJeu(this);
+			this.frmDemarrageJeu.setVisible(true);
     }
 
 	/**
 	 * Demandes provenants de la vue EntreeJeu
+	 * @param info est l'information à traiter
 	 */
 	public void evenementEntreeJeu(String info) {
 		if(info.equals("serveur")) {
 			this.typeJeu = "serveur";
 			//instancier la classe ServeurSocket
 			new ServeurSocket(this, PORT);
-			this.frmEntreeJeu.dispose();
+			this.frmDemarrageJeu.dispose();
 			this.frmArene = new Arene();
 			this.frmArene.setVisible(true);
 		} else {
@@ -61,6 +66,16 @@ public class Controle implements AsyncResponse {
 			new ClientSocket(this, info, PORT);
 		}
 	}
+	
+	/**
+	 * Informations de la vue ChoixJoueur
+	 * @param pseudo le pseudo du joueur
+	 * @param numPerso le numéro du personnage choisi par le joueur
+	 */
+	public void evenementChoixPersonnage(String pseudo, int numPerso) {
+		this.frmChoixPersonnage.dispose();
+		this.frmArene.setVisible(true);
+	}
 
 	@Override
 	public void reception(Connection connection, String ordre, Object info) {
@@ -68,9 +83,9 @@ public class Controle implements AsyncResponse {
 		switch(ordre){
 		case "connexion":
 			if(this.typeJeu.equals("client")) {
-				this.frmEntreeJeu.dispose();
+				this.frmDemarrageJeu.dispose();
 				this.frmArene = new Arene();
-				this.frmChoixPersonnage = new ChoixPersonnage();
+				this.frmChoixPersonnage = new ChoixPersonnage(this);
 				this.frmChoixPersonnage.setVisible(true);
 			}
 			break;
