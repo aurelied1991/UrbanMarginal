@@ -2,12 +2,9 @@ package vue;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,7 +12,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import controleur.Controle;
 
 
@@ -147,7 +143,7 @@ public class ChoixPersonnage extends JFrame {
 			}
 		});
 		
-		//Gestion du champ pseudo
+		//Gestion du champ pseudo dans lequel l'utilisateur entre son pseudo
 		txtPseudo = new JTextField();
 		txtPseudo.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtPseudo.setText("");
@@ -155,6 +151,7 @@ public class ChoixPersonnage extends JFrame {
 		contentPane.add(txtPseudo);
 		txtPseudo.setColumns(10);
 		
+		//Gestion de GO, de son clic et de l'apparence du pointeur de la souris à cet endroit
 		JLabel lblGo = new JLabel("");
 		lblGo.setBounds(296, 192, 87, 77);
 		lblGo.setOpaque(false);

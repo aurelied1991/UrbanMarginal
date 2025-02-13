@@ -16,12 +16,13 @@ import javax.swing.JTextField;
 public class Arene extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane; // panel général
-	private JTextField txtSaisie; // zone de saisie du chat
-	private JTextArea txtChat ; // zone d'affichage du chat
+	private JPanel contentPane; // panel général où les composants graphiques sont ajoutés
+	private JTextField txtSaisie; // zone de saisie où l'utilisateur peut taper des messages dans le tchat
+	private JTextArea txtChat ; // zone d'affichage du tchat
 
 	/**
-	 * Launch the application.
+	 * Méthode qui créée une instance de la fenêtre arene et la rend visible
+	 * Cette méthode est généralement utilisée pour tester l'interface indépendamment du reste de l'application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -37,7 +38,7 @@ public class Arene extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Constructeur créant la fenêtre de l'arène en initialisant tous les composants graphiques et en configurant les paramètres de la fenêtre
 	 */
 	public Arene() {
 		// Dimension de la frame en fonction de son contenu

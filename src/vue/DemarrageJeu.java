@@ -12,39 +12,42 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
+/**
+ * Fenêtre de démarrage du jeu 
+ */
 public class DemarrageJeu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField txtIP;
-	private Controle controle; // Déclaration de la variable d'instance
+	private JPanel contentPane; //panneau principal de la fenêtre où tous les composants graphiques sont ajoutés
+	private JTextField txtIP; //champ de texte où utilisteur peut endre l'adresse IP du serveur
+	private Controle controle; // Déclaration de la variable d'instance coontrole de type Controle
 	
 	
 	/**
-	 * clic sur le bouton Start pour lancer le jeu
+	 * Méthode appelée lors du clic sur le bouton Start pour lancer le jeu
 	 */
 	private void btnStart_clic() {
-		// Lors du clic sur bntStart, envoie "serveur" au contrôleur pour démarrer un serveur
+		// Lors du clic sur bntStart, envoie "serveur" au contrôleur pour indiquer que l'utilisateur souhaite démarrer un serveur. Le contrôleur va alors gérer la création du serveur et l'initialisation du jeu côté serveur.
 		this.controle.evenementEntreeJeu("serveur");
 	}
 	
 	/**
-	 * clic sur le bouton Connect pour se connecter à un serveur 
+	 * Méthode appelée lors du clic sur le bouton Connect pour se connecter à un serveur 
 	 */
 	private void btnConnect_clic() {
-		// Passe par Controle pour savoir quelle fenêtre ouvrir et fermer l'actuelle et récup
+		//  récupère l'adresse IP du serveur dans le champ de texte et envoie cette information au contrôleur pour se connecter à un serveur existant.
         this.controle.evenementEntreeJeu(this.txtIP.getText());
 	}	
 	
 	/**
-	 * Clic sur le bouton Exit pour quitter le jeu
+	 * Méthode appelée lors du Clic sur le bouton Exit pour quitter le jeu
 	 */
 	private void btnExit_clic() {
 		System.exit(0);
 	}
 
 	/**
-	 * Create the frame.
+	 * Constructeur qui crée la fenêtre 
 	 * @param controle 
 	 */
 	public DemarrageJeu(Controle controle) {
