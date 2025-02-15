@@ -9,6 +9,10 @@ import outils.connexion.ServeurSocket;
 import vue.Arene;
 import vue.ChoixPersonnage;
 import vue.DemarrageJeu;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import controleur.Global;
 
 /**
@@ -58,6 +62,7 @@ public class Controle implements AsyncResponse, Global {
 			this.leJeu = new JeuServeur(this);
 			this.frmDemarrageJeu.dispose();
 			this.frmArene = new Arene();
+			((JeuServeur)this.leJeu).constructionMurs(); //transtypage de leJeu en JeuServeur
 			this.frmArene.setVisible(true);
 		} else {
 			//si l'utilisateur choisit clique sur connect, une connexion client est établie via ClientSocket, mais sans initialiser le serveur
@@ -76,6 +81,39 @@ public class Controle implements AsyncResponse, Global {
 		//On transtype leJeu en JeuClient car c'est lui qui possède l'objet de type Connection pour communiquer avec l'ordinateur distant (le jeu envoie les infos du personnage choisi au serveur en passant par la méthode envoi de la classe JeuClient)
 		((JeuClient)this.leJeu).envoi(PSEUDO+STRINGSEPARE+pseudo+STRINGSEPARE+numPerso);
 
+	}
+	
+	/**
+	 * 
+	 */
+	public void evenementJeuServeur(String ordre, Object info) {
+		switch(ordre) {
+		case AJOUTMUR:
+			 // On cast info en JLabel et on l'ajoute via la méthode ajoutMurs
+            if (info instanceof JLabel) {
+                frmArene.ajoutMurs((JLabel) info);
+            } else {
+                System.out.println("Erreur : l'objet n'est pas un JLabel.");
+            }
+            break;
+		case AJOUTPANELMURS:
+			this.leJeu.envoi((Connection)info, this.frmArene.getJpnMurs());
+		}
+	}
+	
+	/**
+	 * Demande provenant de JeuClient
+	 * @param ordre ordre à exécuter
+	 * @param info information à traiter
+	 */
+	public void evenementJeuClient(String ordre, Object info) {
+		// tester l'ordre recu
+		switch(ordre) {
+		//Si cet ordre est bien l'ajout du panel des murs, il faut appeler le setter correspondant dans Arene en lui envoyant info en parametre apres l'avoir transtypé en JPanel
+		case AJOUTPANELMURS :
+			this.frmArene.setJpnMurs((JPanel)info);
+			break;
+		}
 	}
 
 	/**

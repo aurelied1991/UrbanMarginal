@@ -17,19 +17,19 @@ public interface Global {
 	/**
 	 * Chemin du dossier des images de fonds
 	 */
-	String CHEMINFONDS = "fonds"+CHEMINSEPARATOR;
+	String CHEMINFONDS = "media/fonds"+CHEMINSEPARATOR;
 	/**
 	 * Chemin du dossier de l'image de la boule
 	 */
-	String CHEMINBOULES = "boules"+CHEMINSEPARATOR;
+	String CHEMINBOULES = "media/boules"+CHEMINSEPARATOR;
 	/**
 	 * Chemin du dossier de l'image du mur
 	 */
-	String CHEMINMURS = "murs"+CHEMINSEPARATOR;
+	String CHEMINMURS = "media/murs"+CHEMINSEPARATOR;
 	/**
 	 * Chemin du dossier des images des personnages
 	 */
-	String CHEMINPERSONNAGES = "personnages"+CHEMINSEPARATOR;
+	String CHEMINPERSONNAGES = "media/personnages"+CHEMINSEPARATOR;
 	/**
 	 * Chemin du dossier des sons
 	 */
@@ -102,5 +102,37 @@ public interface Global {
 	 * perte de points de vie lors d'une attaque
 	 */
 	int PERTE = 2 ; 
-
+	
+	/**
+	 * nombre de murs dans l'arène
+	 */
+	int NBMURS = 20;
+	/**
+	 * hauteur de la zone de jeu de l'arène
+	 */
+	int HAUTEURARENE = 600;
+	/**
+	 * largeur de la zone de heu de l'arène
+	 */
+	int LARGEURARENE = 800;
+	/**
+	 * hauteur d'un mur
+	 */
+	int HAUTEURMUR = 35;
+	/**
+	 * largeur d'un mur
+	 */
+	int LARGEURMUR = 34;
+	/**
+	 * Message "serveur" pour la création d'un serveur
+	 */
+	String SERVEUR = "serveur";
+	/**
+	 * ordre pour ajouter un mur dans l'arène du serveur
+	 */
+	String AJOUTMUR = "ajout mur";
+	/**
+	 * ordre pour ajouter le panel des murs dans l'arène du client
+	 */
+	String AJOUTPANELMURS = "ajout panel murs";
 }

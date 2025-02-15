@@ -1,13 +1,16 @@
 package modele;
 
+import javax.swing.JPanel;
+
 import controleur.Controle;
+import controleur.Global;
 import outils.connexion.Connection;
 
 /**
  * Gestion du jeu côté client
  *
  */
-public class JeuClient extends Jeu {
+public class JeuClient extends Jeu implements Global{
 	
 	/**
 	 * objet de connexion pour communiquer avec le serveur (stocke la connexion au serveur)
@@ -34,6 +37,11 @@ public class JeuClient extends Jeu {
 	 */
 	@Override
 	public void reception(Connection connection, Object info) {
+		//Test pour vérifier si info recu en paramètre est bien une instance JPanel
+		if(info instanceof JPanel) {
+			// demander au contrôleur de mettre ce panel des murs dans l'arène
+			this.controle.evenementJeuClient(AJOUTPANELMURS, info);
+		}
 	}
 	
 	/**

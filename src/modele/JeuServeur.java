@@ -7,6 +7,8 @@ import controleur.Global;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import javax.swing.JLabel;
+
 /**
  * Gestion du jeu côté serveur qui gère plusieurs joueurs et la logique du jeu
  * 
@@ -40,7 +42,7 @@ public class JeuServeur extends Jeu implements Global{
 	}
 	
 	/**
-	 * Quand le serveur recoit un message, il transforme info en Stringue et le découpe, puis il récupère "ordre" (le premier élément du tableau) et il vérifie si "ordre" est PSEUDO
+	 * Quand le serveur recoit un message, il transforme info en String et le découpe, puis il récupère "ordre" (le premier élément du tableau) et il vérifie si "ordre" est PSEUDO
 	 */
 
 	@Override
@@ -49,6 +51,8 @@ public class JeuServeur extends Jeu implements Global{
 		String ordre = infos[0];
 		switch(ordre) {
 		case PSEUDO :
+			//envoi des murs au client
+			controle.evenementJeuServeur(AJOUTPANELMURS, connection);
 			//si ordre = PSEUDO alors on récupère le pseudo et le numéro du personnage, puis on initialise le personnaeg du joueur associé à la connexion
 			String pseudo = infos[1];
 			int numPerso = Integer.parseInt(infos[2]);
@@ -75,6 +79,20 @@ public class JeuServeur extends Jeu implements Global{
 	 * Génération des murs
 	 */
 	public void constructionMurs() {
+		for(int k=0; k < NBMURS; k++) {
+			Mur mur = new Mur();  // Création du Mur
+	        lesMurs.add(mur);     // Ajout du Mur dans la liste
+
+	        // Récupération du JLabel du Mur
+	        JLabel lblMur = mur.getjLabel();
+	        
+	        // Vérification que lblMur n'est pas null
+	        if (lblMur != null) {
+	            this.controle.evenementJeuServeur(AJOUTMUR, lblMur);
+	        } else {
+	            System.out.println("Erreur : Le JLabel est null.");
+	        }
+		}
 	}
 	
 }

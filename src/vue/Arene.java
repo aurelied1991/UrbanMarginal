@@ -10,15 +10,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+
+import controleur.Global;
+
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 
-public class Arene extends JFrame {
+public class Arene extends JFrame implements Global{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane; // panel général où les composants graphiques sont ajoutés
+	private JPanel jpnMurs; // Panel contenant les murs
 	private JTextField txtSaisie; // zone de saisie où l'utilisateur peut taper des messages dans le tchat
 	private JTextArea txtChat ; // zone d'affichage du tchat
+
 
 	/**
 	 * Méthode qui créée une instance de la fenêtre arene et la rend visible
@@ -36,6 +41,31 @@ public class Arene extends JFrame {
 			}
 		});
 	}
+	
+	/**
+	 * @return the jpnMurs
+	 */
+	public JPanel getJpnMurs() {
+		return jpnMurs;
+	}
+
+	/**
+	 * @param jpnMurs the jpnMurs to set
+	 */
+	public void setJpnMurs(JPanel jpnMurs) {
+		this.jpnMurs.add(jpnMurs);
+		this.jpnMurs.repaint();
+	}
+	
+	/**
+	 * Ajoute un mur au panel jpnMurs après l'avoir transtyper en JLabel puis repeindre le mur
+	 * @param unMur
+	 */
+	public void ajoutMurs(JLabel unMur) {
+	    jpnMurs.add(unMur);
+	    jpnMurs.repaint();
+	}
+	
 
 	/**
 	 * Constructeur créant la fenêtre de l'arène en initialisant tous les composants graphiques et en configurant les paramètres de la fenêtre
@@ -53,6 +83,12 @@ public class Arene extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		jpnMurs = new JPanel();
+		jpnMurs.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
+		jpnMurs.setOpaque(false); //transparent
+		jpnMurs.setLayout(null);		
+		contentPane.add(jpnMurs);
+		
 		txtSaisie = new JTextField();
 		txtSaisie.setBounds(0, 600, 800, 25);
 		contentPane.add(txtSaisie);
@@ -67,9 +103,8 @@ public class Arene extends JFrame {
 		jspChat.setViewportView(txtChat);
 		
 		JLabel lblFond = new JLabel("");
-		String chemin = "fonds/fondarene.jpg";
-		URL resource = getClass().getClassLoader().getResource(chemin);
-		lblFond.setIcon(new ImageIcon("C:\\Users\\aurel\\Desktop\\JAva2\\UrbanMarginal\\media\\fonds\\fondarene.jpg"));		
+		String chemin = "media/fonds/fondarene.jpg";
+		lblFond.setIcon(new ImageIcon(chemin));		
 		lblFond.setBounds(0, 0, 800, 600);
 		contentPane.add(lblFond);
 	}
