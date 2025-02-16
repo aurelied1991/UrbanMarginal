@@ -21,6 +21,7 @@ public class Arene extends JFrame implements Global{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane; // panel général où les composants graphiques sont ajoutés
 	private JPanel jpnMurs; // Panel contenant les murs
+	private JPanel jpnJeu; // Panel contenant les joueurs
 	private JTextField txtSaisie; // zone de saisie où l'utilisateur peut taper des messages dans le tchat
 	private JTextArea txtChat ; // zone d'affichage du tchat
 
@@ -58,12 +59,37 @@ public class Arene extends JFrame implements Global{
 	}
 	
 	/**
+	 * 
+	 */
+	public JPanel getJpnJeu() {
+		return jpnJeu;
+	}
+	
+	/**
+	 * 
+	 */
+	public void setJpnJeu(JPanel jpnJeu) {
+		this.jpnJeu.removeAll();
+		this.jpnJeu.add(jpnJeu);
+		this.jpnJeu.repaint();
+	}
+	
+	/**
 	 * Ajoute un mur au panel jpnMurs après l'avoir transtyper en JLabel puis repeindre le mur
 	 * @param unMur
 	 */
 	public void ajoutMurs(JLabel unMur) {
 	    jpnMurs.add(unMur);
 	    jpnMurs.repaint();
+	}
+	
+	/**
+	 * Ajout d'un joueur, son message ou sa boule, dans le panel de jeu
+	 * @param unJLabel le label à ajouter
+	 */
+	public void ajoutJLabelJeu(JLabel unJLabel) {
+		this.jpnJeu.add(unJLabel);
+		this.jpnJeu.repaint();
 	}
 	
 
@@ -82,6 +108,12 @@ public class Arene extends JFrame implements Global{
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		jpnJeu = new JPanel();
+		jpnJeu.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);
+		jpnJeu.setOpaque(false);
+		jpnJeu.setLayout(null);		
+		contentPane.add(jpnJeu);
 		
 		jpnMurs = new JPanel();
 		jpnMurs.setBounds(0, 0, LARGEURARENE, HAUTEURARENE);

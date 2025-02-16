@@ -38,7 +38,7 @@ public class JeuServeur extends Jeu implements Global{
 	 */
 	@Override
 	public void connexion(Connection connection) {
-		this.lesJoueurs.put(connection, new Joueur());
+		this.lesJoueurs.put(connection, new Joueur(this));
 	}
 	
 	/**
@@ -56,7 +56,8 @@ public class JeuServeur extends Jeu implements Global{
 			//si ordre = PSEUDO alors on récupère le pseudo et le numéro du personnage, puis on initialise le personnaeg du joueur associé à la connexion
 			String pseudo = infos[1];
 			int numPerso = Integer.parseInt(infos[2]);
-			this.lesJoueurs.get(connection).initPerso(pseudo, numPerso);
+			//La classe JeuServeur ne doit pas envoyer le dictionnaire mais juste les joueurs, en utilisant la méthode values sur le dictionnaire.
+			this.lesJoueurs.get(connection).initPerso(pseudo, numPerso, this.lesJoueurs.values(), this.lesMurs);
 			break;
 		}
 	}
@@ -66,6 +67,14 @@ public class JeuServeur extends Jeu implements Global{
 	 */
 	@Override
 	public void deconnexion() {
+	}
+	
+	/**
+	 * Envoie comme ordre au controleur : "ajout jlabel jeu"
+	 */
+	public void ajoutJLabelJeuArene(JLabel jLabel) {
+		this.controle.evenementJeuServeur(AJOUTJLABELJEU, jLabel);
+		System.out.println("🛠️ JLabel ajouté à l'arène !");
 	}
 
 	/**
@@ -92,6 +101,17 @@ public class JeuServeur extends Jeu implements Global{
 	        } else {
 	            System.out.println("Erreur : Le JLabel est null.");
 	        }
+		}
+	}
+	
+	/**
+	 * Envoi du panel de jeu à tous les joueurs
+	 */
+	public void envoiJeuATous() {
+		//boucle sur les connexions du dictionnaire lesJoueurs (récupérables avec la méthode keySet sur le dictionnaire)
+		for(Connection connection : this.lesJoueurs.keySet()) {
+			//pour chaque connexion, fait appel au contrôleur en envoyant cet ordre accompagné de la connexion du joueur
+			this.controle.evenementJeuServeur(MODIFPANELJEU, connection);
 		}
 	}
 	

@@ -84,7 +84,9 @@ public class Controle implements AsyncResponse, Global {
 	}
 	
 	/**
-	 * 
+	 * Demande provenant de JeuServeur
+	 * @param ordre ordre à exécuter
+	 * @param info info à traiter pour l'exécution des ordres
 	 */
 	public void evenementJeuServeur(String ordre, Object info) {
 		switch(ordre) {
@@ -96,8 +98,18 @@ public class Controle implements AsyncResponse, Global {
                 System.out.println("Erreur : l'objet n'est pas un JLabel.");
             }
             break;
+        //envoi du panel des murs
 		case AJOUTPANELMURS:
 			this.leJeu.envoi((Connection)info, this.frmArene.getJpnMurs());
+			break;
+		// On transtype info en JLabel et on l'ajoute via la méthode ajoutJLabelJeu
+		case AJOUTJLABELJEU:
+			this.frmArene.ajoutJLabelJeu((JLabel)info);
+			break;
+		//envoi du panel du panel du jeu
+		case MODIFPANELJEU:
+			this.leJeu.envoi((Connection) info, this.frmArene.getJpnJeu());
+			break;
 		}
 	}
 	
@@ -112,6 +124,10 @@ public class Controle implements AsyncResponse, Global {
 		//Si cet ordre est bien l'ajout du panel des murs, il faut appeler le setter correspondant dans Arene en lui envoyant info en parametre apres l'avoir transtypé en JPanel
 		case AJOUTPANELMURS :
 			this.frmArene.setJpnMurs((JPanel)info);
+			break;
+		//Si cet ordre est bien l'ajout du panel du jeu, il faut appeler le setter correspondant dans Arene en lui envoyant info en parametre apres l'avoir transtypé en JPanel
+		case MODIFPANELJEU :
+			this.frmArene.setJpnJeu((JPanel)info);
 			break;
 		}
 	}

@@ -13,9 +13,10 @@ import outils.connexion.Connection;
 public class JeuClient extends Jeu implements Global{
 	
 	/**
-	 * objet de connexion pour communiquer avec le serveur (stocke la connexion au serveur)
+	 * objets de connexion pour communiquer avec le serveur (stocke la connexion au serveur)
 	 */
 	private Connection connection;
+	private Boolean mursOk = false;
 	
 	/**
 	 * Constructeur qui appelle le constructeur parent (super.controle = controle;) et qui stocke le contrôleur pour gérer les interactions
@@ -39,8 +40,14 @@ public class JeuClient extends Jeu implements Global{
 	public void reception(Connection connection, Object info) {
 		//Test pour vérifier si info recu en paramètre est bien une instance JPanel
 		if(info instanceof JPanel) {
-			// demander au contrôleur de mettre ce panel des murs dans l'arène
-			this.controle.evenementJeuClient(AJOUTPANELMURS, info);
+			if(!this.mursOk) {
+				// demander au contrôleur de mettre ce panel des murs dans l'arène
+				this.controle.evenementJeuClient(AJOUTPANELMURS, info);
+				this.mursOk = true;
+			}else {
+				// demander au contrôleur de mettre ce panel du jeu dans l'arène
+				this.controle.evenementJeuClient(MODIFPANELJEU, info);
+			}
 		}
 	}
 	
