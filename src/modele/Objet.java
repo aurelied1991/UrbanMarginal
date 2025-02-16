@@ -3,39 +3,41 @@ package modele;
 import javax.swing.JLabel;
 
 /**
- * Informations communes � tous les objets (joueurs, murs, boules)
- * permet de m�moriser la position de l'objet et de g�rer les  collisions
+ * Informations communes à tous les objets (joueurs, murs, boules)
+ * Cette classe abstraite permet de mémoriser la position des objets dans l'arène et de gérer les collisions entre ces objets
  *
  */
 public abstract class Objet {
-
 	/**
-	 * position X de l'objet
+	 * Position X de l'objet, Coordonnée horizontale de l'objet dans l'arène
 	 */
 	protected Integer posX ;
 	/**
-	 * position Y de l'objet
+	 * Position Y de l'objet, Coordonnée verticale de l'objet dans l'arène.
 	 */
 	protected Integer posY ;
 	
 	/**
-	 * label contenant l'objet graphique (personnage, mur, boule)
+	 * Label contenant l'objet graphique (personnage, mur, boule), c'est l'élément graphique de l'objet affiché à l'écran.
 	 */
 	protected JLabel jLabel;
 	
 	/**
-	 * @return the jLabel
+	 * Getter pour obtenir le label de l'objet
+	 * @return jLabel : le label graphique de l'objet
 	 */
 	public JLabel getjLabel() {
 		return jLabel;
 	}
 	
 	/**
-	 * contr�le si l'objet actuel touche l'objet passe en parametre (par ex, un mur ne doit pas toucher un autre mur ou un joueur)
-	 * @param objet contient l'objet a contr�ler
-	 * @return true si les 2 objets se touchent
+	 * Contrôle si l'objet actuel touche l'objet passé en paramètre (par exemple, un mur ne doit pas toucher un autre mur ou un joueur)
+	 * Cette méthode vérifie si les zones de l'objet actuel et de l'objet passé en paramètre se chevauchent, indiquant ainsi une collision
+	 * @param objet : l'objet à contrôler pour la collision
+	 * @return true si les deux objets se touchent (collision), false sinon
 	 */
 	public Boolean toucheObjet (Objet objet) {
+		// Si l'un des objets n'a pas de jLabel (c'est-à-dire qu'il n'est pas encore affiché), on ne peut pas vérifier la collision
 		if(this.jLabel == null || objet.jLabel == null) {
 			return false;
 		}else {

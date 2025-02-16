@@ -3,16 +3,30 @@ package outils.son;
 import java.io.Serializable;
 
 /**
- * ReprÈsente une durÈe
+ * Represente une duree
  */
 
 public class Duree implements Serializable
 {
+  /**
+   * Dur√©e des sons en microsecondes
+   */
   private long microsecondes;
+  /**
+   * Dur√©e des sons en heure, minute, seconde, microseconde
+   */
   private int heure, minute, seconde, microseconde;
+  
+  /**
+   * Dur√©e
+   */
   public Duree()
   {
   }
+  /**
+   * Dur√©e en microsecondes
+   * @param microsecondes dur√©e
+   */
   public Duree(long microsecondes)
   {
     this.microsecondes = microsecondes;
@@ -25,63 +39,94 @@ public class Duree implements Serializable
     temps = temps / 60L;
     this.heure = (int)temps;
   }
+  
+  /**
+   * Dur√©e en microsecondes
+   * @param microseconde micro
+   */
   public Duree(int microseconde)
   {
     if(microseconde < 0)
     {
       throw new IllegalArgumentException(
-          "Le nombre de microsecondes ne peut pas Ítre nÈgative");
+          "Le nombre de microsecondes ne peut pas √™tre n√©gative");
     }
     if(microseconde > 999999)
     {
-      throw new IllegalArgumentException("Le nombre de microsecondes ne peut pas Ítre plus de 999999, sinon on a des secondes");
+      throw new IllegalArgumentException("Le nombre de microsecondes ne peut pas ÔøΩtre plus de 999999, sinon on a des secondes");
     }
     this.microseconde = microseconde;
     this.microsecondes = (long)this.microseconde;
   }
+  
+  /**
+   * Dur√©e
+   * @param seconde sec
+   * @param microseconde ms
+   */
   public Duree(int seconde, int microseconde)
   {
     this(microseconde);
     if(seconde < 0)
     {
       throw new IllegalArgumentException(
-          "Le nombre de secondes ne peut pas Ítre nÈgative");
+          "Le nombre de secondes ne peut pas √™tre n√©gative");
     }
     if(seconde > 59)
     {
       throw new IllegalArgumentException(
-          "Le nombre de secondes ne peut pas Ítre plus de 59, sinon on a des minutes");
+          "Le nombre de secondes ne peut pas √™tre plus de 59, sinon on a des minutes");
     }
     this.seconde = seconde;
     this.microsecondes += 1000000L * (long)this.seconde;
   }
+  
+  /**
+   * Dur√©e
+   * @param minute min
+   * @param seconde sec
+   * @param microseconde ms
+   */
   public Duree(int minute, int seconde, int microseconde)
   {
     this(seconde, microseconde);
     if(minute < 0)
     {
       throw new IllegalArgumentException(
-          "Le nombre de minutes ne peut pas Ítre nÈgative");
+          "Le nombre de minutes ne peut pas √™tre n√©gative");
     }
     if(minute > 59)
     {
       throw new IllegalArgumentException(
-          "Le nombre minutes ne peut pas Ítre plus de 59, sinon on a des heures");
+          "Le nombre minutes ne peut pas √™tre plus de 59, sinon on a des heures");
     }
     this.minute = minute;
     this.microsecondes += 60L * 1000000L * (long)this.minute;
   }
+  
+  /**
+   * Dur√©e
+   * @param heure h
+   * @param minute min
+   * @param seconde sec
+   * @param microseconde ms
+   */
   public Duree(int heure, int minute, int seconde, int microseconde)
   {
     this(minute, seconde, microseconde);
     if(heure < 0)
     {
       throw new IllegalArgumentException(
-          "Le nombre d'heure ne peut pas Ítre nÈgative");
+          "Le nombre d'heure ne peut pas √™tre n√©gative");
     }
     this.heure = heure;
     this.microsecondes += 60L * 60L * 1000000L * (long)this.heure;
   }
+  
+  /**
+   * Dur√©e totale
+   * @param duree duree
+   */
   public Duree(Duree duree)
   {
     this.microsecondes = duree.microsecondes;
@@ -90,30 +135,64 @@ public class Duree implements Serializable
     this.minute = duree.minute;
     this.heure = duree.heure;
   }
+  /**
+   * Dur√©e en microsecondes
+   * @return microsecondes
+   */
   public long enMicrosecondes()
   {
     return this.microsecondes;
   }
+  
+  /**
+   * Dur√©e en millisecondes
+   * @return microsecodes / 1000L
+   */
   public long enMillisecondes()
   {
     return this.microsecondes / 1000L;
   }
+  
+  /**
+   * getter sur Microsecondes
+   * @return microseconde
+   */
   public int getMicroseconde()
   {
     return this.microseconde;
   }
+  
+  /**
+   * getter sur getMilliseconde
+   * @return millisecondes
+   */
   public int getMilliseconde()
   {
     return this.microseconde / 1000;
   }
+  
+  /**
+   * getter sur seconde
+   * @return seconde
+   */
   public int getSeconde()
   {
     return this.seconde;
   }
+  
+  /**
+   * getter sur minute
+   * @return minute
+   */
   public int getMinute()
   {
     return this.minute;
   }
+  
+  /**
+   * getter sur heure
+   * @return heure
+   */
   public int getHeure()
   {
     return this.heure;

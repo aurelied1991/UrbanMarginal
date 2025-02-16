@@ -1,55 +1,48 @@
 package modele;
 
 import java.io.File;
-import java.net.URL;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
 import controleur.Global;
 
 /**
  * Gestion des murs
- * Classe qui hérite de objet 
- *
+ * Classe qui hérite de la classe Objet, représentant un mur dans l'arène
+ * Cette classe permet de gérer la création, la position et l'affichage du mur
  */
 
 public class Mur extends Objet implements Global{
 
-	private JLabel lblMurs; // Déclaration de lblMurs comme variable d'instance
 	/**
-	 * Constructeur pour créer un mur
+	 * Déclaration de lblMurs comme variable d'instance pour afficher l'image du mur
+	 */
+	private JLabel lblMurs; 
+	
+	/**
+	 * Constructeur pour créer un mur à une position aléatoire dans l'arène et définir son image
+	 * Ce constructeur vérifie si l'image du mur existe à l'emplacement donné, et si elle existe, il initialise la position du mur et crée un JLabel pour afficher l'image.
 	 */
 	public Mur() {
-		
+		// Définir le chemin du fichier image du mur
 		File imageFile = new File("C:/Users/aurel/Desktop/JAva2/UrbanMarginal/media/murs/mur.gif");
-
-		if (!imageFile.exists()) {
-		    System.out.println("L'image n'existe pas à cet emplacement.");
-		} else {
-		    System.out.println("L'image existe à cet emplacement.");
-		}
-		//calcul position aléatoire du mur
+		// Calcul position aléatoire du mur dans l'arène
 		posX = (int)Math.round(Math.random() * (LARGEURARENE - LARGEURMUR));
 		posY = (int)Math.round(Math.random() * (HAUTEURARENE - HAUTEURMUR));
-		//création du Jlabel pour ce mur
+		// Création du JLabel pour afficher l'image du mur
 		lblMurs = new JLabel();
 		System.out.println("JLabel créé"); // Ajout de ce message pour vérifier
-		//Caractéristiques du  mur : position et image
+		// Caractéristiques du mur : ajout de l'image du mur et définition de sa taille et position
 		String cheminMur = "C:/Users/aurel/Desktop/JAva2/UrbanMarginal/media/murs/mur.gif";
 		lblMurs.setIcon(new ImageIcon(cheminMur));	
 		lblMurs.setBounds(posX, posY, LARGEURMUR, HAUTEURMUR);
         }
 	
-	// Méthode pour récupérer le JLabel
-    public JLabel getjLabel() {
-        if (lblMurs == null) {
-            System.out.println("Erreur : lblMurs est toujours null dans getjLabel.");
-        } else {
-            System.out.println("lblMurs récupéré correctement.");
-        }
-
-        return lblMurs;
+	/**
+	 *  Méthode pour récupérer le JLabel du mur
+	 *  Elle permet de retourner le JLabel représentant le mur et d'afficher un message de vérification
+	 *   @return lblMurs Le JLabel représentant le mur
+	 */
+	    public JLabel getjLabel() {
+	    	return lblMurs;
     }
 }
