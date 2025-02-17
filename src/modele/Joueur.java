@@ -1,5 +1,6 @@
 package modele;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -130,15 +131,53 @@ public class Joueur extends Objet implements Global {
 	}
 
 	/**
-	 * Gère une action reçue, telle qu'un déplacement ou un tir de boule
+	 * Gère une action reçue, telle qu'un déplacement ou un tir de boule en fonction de la touche appuyée
+	 * @param action action action a exécutée (déplacement ou tir de boule)
+	 * @param lesJoueurs collection des joueurs présents dans l'arène
+	 * @param lesMurs liste des murs présents dans l'arène
 	 */
-	public void action() {
+	public void action(Integer action, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs) {
+		switch(action) {
+		// Cas selon la direction avec touche appuyée : gauche, droite, haut, bas
+		case KeyEvent.VK_LEFT :
+			orientation = GAUCHE; 
+			posX = deplace(posX, action.intValue(), -PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_RIGHT :
+			orientation = DROITE;
+			posX = deplace(posX, action.intValue(), PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_UP :
+			posY = deplace(posY, action.intValue(), -PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+			break;
+		case KeyEvent.VK_DOWN :
+			posY = deplace(posY,  action.intValue(), PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+			break;
+		}
+		//appel de la méthode affiche
+		this.affiche(MARCHE, this.etape);
 	}
 
 	/**
 	 * Gère le déplacement du personnage
 	 */
-	private void deplace() { 
+	private int deplace(int position, int action, int lepas, int max, Collection<Joueur> lesJoueurs, ArrayList<Mur> lesMurs ) { 		
+		int ancpos = position ;
+		position += lepas ;
+		position = Math.max(position, 0) ;
+		position = Math.min(position,  max) ;
+		if (action==KeyEvent.VK_LEFT || action==KeyEvent.VK_RIGHT) {
+			posX = position ;
+		}else{
+			posY = position ;
+		}
+		// controle s'il y a collision, dans ce cas, le personnage reste sur place
+		if (toucheJoueur(lesJoueurs) || toucheMur(lesMurs)) {
+			position = ancpos ;
+		}
+		// passe à l'étape suivante de l'animation de la marche
+		etape = (etape % NBETAPESMARCHE) + 1 ;
+		return position ;
 	}
 
 	/**
@@ -150,7 +189,7 @@ public class Joueur extends Objet implements Global {
 		for(Joueur unJoueur : lesJoueurs) {
 			if(!this.equals(unJoueur)) {
 				if(super.toucheObjet(unJoueur)) {
-					return true;	
+					return true;
 				}		
 			}
 		}
@@ -164,8 +203,10 @@ public class Joueur extends Objet implements Global {
 	*/
 	private Boolean toucheMur(ArrayList<Mur> lesMurs) {
 		for(Mur unMur : lesMurs) {
+			// Vérification si les rectangles des murs et du joueur se chevauchent
 			if(super.toucheObjet(unMur)) {
-				return true;
+				System.out.println("Collision avec un mur détectée");
+	            return true; // Collision avec un mur
 			}
 		}
 		return false;

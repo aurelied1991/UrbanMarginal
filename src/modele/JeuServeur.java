@@ -56,7 +56,7 @@ public class JeuServeur extends Jeu implements Global{
 		case PSEUDO :
 			// Envoie des murs au client
 			controle.evenementJeuServeur(AJOUTPANELMURS, connection);
-			//si ordre = PSEUDO alors on récupère le pseudo et le numéro du personnage, puis on initialise le personnaeg du joueur associé à la connexion
+			// Si ordre = PSEUDO alors on récupère le pseudo et le numéro du personnage, puis on initialise le personnaeg du joueur associé à la connexion
 			String pseudo = infos[1];
 			int numPerso = Integer.parseInt(infos[2]);
 			// Initialise le personnage du joueur avec ses informations
@@ -66,10 +66,16 @@ public class JeuServeur extends Jeu implements Global{
 			this.controle.evenementJeuServeur(AJOUTPHRASE, premierMessage);
 			break;
 		case TCHAT :
-			//Afficher devant la phrase le pseudo de la personne suivi de '>' et récupérer le pseudo du joueur dont la connexion a été reçue en paramètre
+			// Afficher devant la phrase le pseudo de la personne suivi de '>' et récupérer le pseudo du joueur dont la connexion a été reçue en paramètre
 			String phrase = infos[1];
 			phrase = this.lesJoueurs.get(connection).getPseudo()+" > "+phrase;
 			this.controle.evenementJeuServeur(AJOUTPHRASE, phrase);
+			break;
+			
+		case ACTION:
+			// Appeler la méthode action sur le joueur concerné  et envoyer en paramètre l'info recu mais aussi les joueurs et les murs pour gérer les collisioons
+			Integer action = Integer.parseInt(infos[1]);
+			this.lesJoueurs.get(connection).action(action, this.lesJoueurs.values(), this.lesMurs);
 			break;
 		}
 	}

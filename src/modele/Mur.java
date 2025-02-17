@@ -13,10 +13,6 @@ import controleur.Global;
 
 public class Mur extends Objet implements Global{
 
-	/**
-	 * Déclaration de lblMurs comme variable d'instance pour afficher l'image du mur
-	 */
-	private JLabel lblMurs; 
 	
 	/**
 	 * Constructeur pour créer un mur à une position aléatoire dans l'arène et définir son image
@@ -29,20 +25,13 @@ public class Mur extends Objet implements Global{
 		posX = (int)Math.round(Math.random() * (LARGEURARENE - LARGEURMUR));
 		posY = (int)Math.round(Math.random() * (HAUTEURARENE - HAUTEURMUR));
 		// Création du JLabel pour afficher l'image du mur
-		lblMurs = new JLabel();
-		System.out.println("JLabel créé"); // Ajout de ce message pour vérifier
+		jLabel = new JLabel();
+		//System.out.println("JLabel créé"); // Ajout de ce message pour vérifier
 		// Caractéristiques du mur : ajout de l'image du mur et définition de sa taille et position
 		String cheminMur = "C:/Users/aurel/Desktop/JAva2/UrbanMarginal/media/murs/mur.gif";
-		lblMurs.setIcon(new ImageIcon(cheminMur));	
-		lblMurs.setBounds(posX, posY, LARGEURMUR, HAUTEURMUR);
+		jLabel.setIcon(new ImageIcon(cheminMur));	
+		jLabel.setBounds(posX, posY, LARGEURMUR, HAUTEURMUR);
         }
 	
-	/**
-	 *  Méthode pour récupérer le JLabel du mur
-	 *  Elle permet de retourner le JLabel représentant le mur et d'afficher un message de vérification
-	 *   @return lblMurs Le JLabel représentant le mur
-	 */
-	    public JLabel getjLabel() {
-	    	return lblMurs;
-    }
+
 }

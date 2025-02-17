@@ -85,6 +85,7 @@ public class Arene extends JFrame implements Global{
 		this.jpnJeu.removeAll(); // Retire tous les composants précédents du panel
 		this.jpnJeu.add(jpnJeu); // Ajoute le nouveau panel de jeu
 		this.jpnJeu.repaint(); // Repeinture du panel pour les nouveaux ajouts
+		this.contentPane.requestFocus(); // Donne le focus à contentPane pour que les flèches soient prises en compte , à la fin du setter car c'est la dernière action faite avant que le client ait la main
 	}
 	
 	/**
@@ -108,8 +109,8 @@ public class Arene extends JFrame implements Global{
 	 * Méthode pour ajouter un mur (JLabel représentant un mur) au panel des murs
 	 * @param unMur mur
 	 */
-	public void ajoutMurs(JLabel unMur) {
-	    jpnMurs.add(unMur); // Ajout du mur au panel
+	public void ajoutMurs(Object unMur) {
+	    jpnMurs.add((JLabel)unMur); // Ajout du mur au panel
 	    jpnMurs.repaint(); // Repeinture du panel pour afficher le mur ajouté
 	}
 	
@@ -144,6 +145,34 @@ public class Arene extends JFrame implements Global{
 				this.controle.evenementArene(this.txtSaisie.getText()); // Demande au contrôleur de traiter l'événement
 				this.txtSaisie.setText(""); // Vide la zone de saisie après l'envoi
 			}
+			this.contentPane.requestFocus(); // Redonner le focus à contentPane après l'envoi du texte
+		}
+	}
+	
+	/**
+	 * Événement déclenché lorsqu'une touche est pressée sur le panneau général
+	 * @param e informations sur la touche pressée
+	 */
+	public void contentPane_KeyPressed(KeyEvent e) {
+		int touche = -1; // Initialisation d'une variable pour stocker la touche appuyée, avec une valeur par défaut invalide
+		// Récupère le code de la touche pressée et teste sa valeur
+		switch(e.getKeyCode()) {
+		// Si la touche pressée est la flèche gauche
+		case KeyEvent.VK_LEFT :
+		// Si la touche pressée est la flèche droite
+		case KeyEvent.VK_RIGHT :
+		// Si la touche pressée est la flèche haute
+		case KeyEvent.VK_UP :
+		// Si la touche pressée est la flèche bas
+		case KeyEvent.VK_DOWN :
+			// On stocke la valeur de la touche pressée
+			touche = e.getKeyCode();
+			break;
+		}
+		// Si une touche valide (flèche directionnelle) a été pressée...
+		if(touche != -1) {
+			// On transmet l'événement au contrôleur du jeu
+			this.controle.evenementArene(touche); 
 		}
 	}
 
@@ -156,7 +185,7 @@ public class Arene extends JFrame implements Global{
 		this.client = typeJeu.equals(CLIENT); // Détermine si l'arène est en mode client ou serveur
 		
 		// Configuration de la taille de la fenêtre en fonction de son contenu
-		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
+		this.getContentPane().setPreferredSize(new Dimension(LARGEURARENE, HAUTEURARENE + 25 + 140));
 		this.pack();
 		this.setResizable(false); // La taille de la fenêtre ne peut pas être changée
 		
@@ -164,6 +193,13 @@ public class Arene extends JFrame implements Global{
 		setTitle("Arena");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel(); 
+		// Mise en écoute de touche sur contentPane, comme pour txtSaisie
+		contentPane.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				contentPane_KeyPressed(e);
+			}
+		});
 		setContentPane(contentPane);
 		contentPane.setLayout(null);  // Utilisation d'un layout nul pour un placement manuel des composants
 		
@@ -202,6 +238,13 @@ public class Arene extends JFrame implements Global{
 		contentPane.add(jspChat);
 		
 		txtChat = new JTextArea();
+		// Si jamais le joueur clique sur la zone de tchat, pour redonner le focus à ContentPane s'il appuie sur une touche
+		txtChat.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				contentPane_KeyPressed(e);
+			}
+		});
 		txtChat.setEditable(false); // Rendre la zone de chat non modifiable
 		jspChat.setViewportView(txtChat); // Ajout de la zone de texte dans le scrollpane
 		

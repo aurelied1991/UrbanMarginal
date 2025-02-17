@@ -148,9 +148,14 @@ public class Controle implements AsyncResponse, Global {
 	 * Envoyer l'information reçue en paramètre, vers l'ordinateur distant, en appelant la méthode envoi sur leJeu, après l'avoir transtypé en JeuClient. Mais attention, l'information à envoyer (donc le texte) doit être précédé d'un ordre pour que JeuServeur puisse savoir de quoi il s'agit. Il faut donc envoyer "tchat", suivi du caractère de séparation (~) suivi du texte.
 	 * @param info Le message du chat à envoyer.
 	 */
-	public void evenementArene(String info) {
-		// Envoie le message de chat avec un ordre "tchat" à l'autre joueur (client ou serveur)
-		((JeuClient)this.leJeu).envoi(TCHAT+STRINGSEPARE+info);
+	public void evenementArene(Object info) {
+		// Si info est une instance de String, envoie le message de chat avec un ordre "tchat" à l'autre joueur (client ou serveur)
+		if(info instanceof String) {
+			((JeuClient)this.leJeu).envoi(TCHAT+STRINGSEPARE+info);
+		// Si info est une instance de Integer, envoie le message de faire une action avec un ordre "action"
+		}else if (info instanceof Integer) {
+			((JeuClient)this.leJeu).envoi(ACTION+STRINGSEPARE+info);
+		}
 	}
 
 	/**
