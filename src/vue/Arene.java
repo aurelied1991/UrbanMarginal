@@ -165,9 +165,11 @@ public class Arene extends JFrame implements Global{
 		case KeyEvent.VK_UP :
 		// Si la touche pressée est la flèche bas
 		case KeyEvent.VK_DOWN :
+		// Si la touche pressée est la barre espace
+		case KeyEvent.VK_SPACE:	
 			// On stocke la valeur de la touche pressée
 			touche = e.getKeyCode();
-			break;
+			break;	
 		}
 		// Si une touche valide (flèche directionnelle) a été pressée...
 		if(touche != -1) {

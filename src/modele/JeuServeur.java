@@ -4,6 +4,7 @@ import controleur.Controle;
 import outils.connexion.Connection;
 import controleur.Global;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import javax.swing.JLabel;
 
@@ -30,6 +31,14 @@ public class JeuServeur extends Jeu implements Global{
 	 */
 	public JeuServeur(Controle controle) {
 		super.controle = controle;
+	}
+	
+	/**
+	 * Getteur sur collection lesJoueurs
+	 * @return the lesJoueurs
+	 */
+	public Collection getLesJoueurs() {
+		return lesJoueurs.values();
 	}
 	
 	/**

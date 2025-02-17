@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.Collection;
+
 import javax.swing.JLabel;
 
 /**
@@ -21,6 +23,22 @@ public abstract class Objet {
 	 * Label contenant l'objet graphique (personnage, mur, boule), c'est l'élément graphique de l'objet affiché à l'écran.
 	 */
 	protected JLabel jLabel;
+	
+	/**
+	 * Getter
+	 * @return the posX la position Y de l'objet
+	 */
+	public Integer getPosX() {
+		return posX;
+	}
+
+	/**
+	 * Getter
+	 * @return the posY la position X de l'objet
+	 */
+	public Integer getPosY() {
+		return posY;
+	}
 	
 	/**
 	 * Getter pour obtenir le label de l'objet
@@ -50,4 +68,19 @@ public abstract class Objet {
 		}
 	}
 	
+	/**
+	 * Vérifie si l'objet actuel touche un des objets de la collection
+	 * @param lesObjets collection d'objets (murs, joueurs ou boules)
+	 * @return l'objet touché ou null
+	 */
+	public Objet toucheCollectionObjets (Collection<Objet> lesObjets) {
+		for (Objet unObjet : lesObjets) {
+			if (!unObjet.equals(this)) {
+				if (toucheObjet(unObjet)) {
+					return unObjet ;
+				}
+			}
+		}
+		return null;
+	}
 }
