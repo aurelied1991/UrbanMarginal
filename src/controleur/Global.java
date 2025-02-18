@@ -46,6 +46,50 @@ public interface Global {
 	 */
 	String FONDARENE = CHEMINFONDS+"fondarene.jpg";
 	/**
+	 * Chemin du son welcome (entrée dans la vue ChoixJoueur)
+	 */
+	String SONWELCOME = "welcome.wav";
+	/**
+	 * Chemin du son precedent (clic sur le bouton précédent de la vue ChoixJoueur)
+	 */
+	String SONPRECEDENT = "precedent.wav";
+	/**
+	 * Chemin du son suivant (clic sur le bouton suivant de la vue ChoixJoueur)
+	 */
+	String SONSUIVANT = "suivant.wav";
+	/**
+	 * Chemin du son go (clic sur le bouton GO de la vue ChoixJoueur)
+	 */
+	String SONGO = "go.wav";
+	/**
+	 * Chemin du son flight (tir de la boule)
+	 */
+	String SONFIGHT = "fight.wav";
+	/**
+	 * Chemin du son hurt (joueur blessé)
+	 */
+	String SONHURT = "hurt.wav";
+	/**
+	 * Chemin du son death (joueur tué)
+	 */
+	String SONDEATH = "death.wav";
+	/**
+	 * tableau des sons de la vue Arene
+	 */
+	String[] SON =  {"fight.wav", "hurt.wav", "death.wav"} ;
+	/**
+	 * numéro correspondant au son FIGHT
+	 */
+	int FIGHT = 0;
+	/**
+	 * numéro correspondant au son HURT
+	 */
+	int HURT = 1;
+	/**
+	 * numéro correspondant au son DEATH
+	 */
+	int DEATH = 2;
+	/**
 	 * Extension des fichiers des images des personnages
 	 */
 	String EXTFICHIERPERSO = ".gif";
@@ -170,9 +214,7 @@ public interface Global {
 	 * nombre d'étapes (d'images) pour donner l'impresson de mourir
 	 */
 	int NBETAPESMORT = 2;
-	/**
-	 * Message "serveur" pour la création d'un serveur
-	 */
+
 	/**
 	 * Message "serveur" pour la création d'un serveur
 	 */
@@ -213,6 +255,9 @@ public interface Global {
 	 * ordre pour exécuter une action (déplacement, tire de boule)
 	 */
 	String ACTION = "action";
-
+	/**
+	 * ordre pour jouer un son (dans l'arène du client)
+	 */
+	String JOUESON = "joue son";
 
 }

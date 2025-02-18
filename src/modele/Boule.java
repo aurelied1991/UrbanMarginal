@@ -39,7 +39,7 @@ public class Boule extends Objet implements Global, Runnable{
 		super.jLabel = new JLabel();
 		super.jLabel.setVisible(false);
 		 // Vérifier si le fichier image existe
-	    String chemin = "C:/Users/aurel/Desktop/JAva2/UrbanMarginal/media/boules/boule.gif";
+	    String chemin = "media/boules/boule.gif";
 	    File fichierImage = new File(chemin);
 	    
 	    if (fichierImage.exists()) {
@@ -57,6 +57,8 @@ public class Boule extends Objet implements Global, Runnable{
 	 * @param lesMurs collection de murs
 	 */
 	public void tireBoule(Joueur attaquant, Collection lesMurs) {
+		// envoi du son FIGHT
+		this.jeuServeur.envoi(FIGHT);
 		this.lesMurs = lesMurs;
 		this.attaquant = attaquant;
 		// Positionnement de la boule
@@ -103,6 +105,8 @@ public class Boule extends Objet implements Global, Runnable{
 		}while(posX>=0 && posX<=LARGEURARENE && this.toucheCollectionObjets(lesMurs)==null && victime==null);
 		// Contrôler s'il y a une victime et si elle n'est pas déjà morte
 		if(victime != null && !victime.estMort()) {
+			// envoi du son HURT
+			this.jeuServeur.envoi(HURT);
 			victime.perteVie();
 			attaquant.gainVie();
 			// Boucle pour jouer l'animation du personnage blessé (en appelant à chaque fois la méthode affiche en lui envoyant en premier paramètre "touche" (à définir en constante) et en second paramètre le numéro de l'étape (l'indice de la boucle)
@@ -112,6 +116,8 @@ public class Boule extends Objet implements Global, Runnable{
 			}
 			// contrôle si la victime est morte
 			if(victime.estMort()) {
+				// envoi du son DEATH
+				this.jeuServeur.envoi(DEATH);
 				// Si elle est morte, jouer l'animation du personnage mort
 				for(int k=1 ; k<=NBETAPESMORT ; k++) {
 					victime.affiche(MORT, k);

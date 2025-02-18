@@ -64,6 +64,8 @@ public class JeuClient extends Jeu implements Global{
 		} else if(info instanceof String) {
 			//Si ce qui est reçu est de type String, demander au contrôleur de modifier le contenu du tchat (ordre "modif tchat") en lui donnant aussi l'information reçue.
 			this.controle.evenementJeuClient(MODIFTCHAT, info);
+		} else if(info instanceof Integer) {
+			this.controle.evenementJeuClient(JOUESON, info);
 		}
 	}
 	

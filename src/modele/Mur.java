@@ -28,7 +28,7 @@ public class Mur extends Objet implements Global{
 		jLabel = new JLabel();
 		//System.out.println("JLabel créé"); // Ajout de ce message pour vérifier
 		// Caractéristiques du mur : ajout de l'image du mur et définition de sa taille et position
-		String cheminMur = "C:/Users/aurel/Desktop/JAva2/UrbanMarginal/media/murs/mur.gif";
+		String cheminMur = "media/murs/mur.gif";
 		jLabel.setIcon(new ImageIcon(cheminMur));	
 		jLabel.setBounds(posX, posY, LARGEURMUR, HAUTEURMUR);
         }

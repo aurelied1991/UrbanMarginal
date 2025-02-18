@@ -13,13 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import controleur.Controle;
+import outils.son.Son;
+import controleur.Global;
 
 
 /**
  * Frame du choix  du joueur
  * Cette classe gère la fenêtre où l'utilisateur choisit son personnage et entre son pseudo avant de commencer à jouer
  */
-public class ChoixPersonnage extends JFrame {
+public class ChoixPersonnage extends JFrame implements Global{
 	/**
 	 * Identifiant unique pour la sérialisation de la classe
 	 */
@@ -48,6 +50,22 @@ public class ChoixPersonnage extends JFrame {
 	 * Numéro du personnage actuellement sélectionné
 	 */
 	private int numPerso; // 
+	/**
+	 * Son au démarrage du jeu
+	 */
+	private Son welcome;
+	/**
+	 * Son sur la flèche précédent
+	 */
+	private Son precedent;
+	/**
+	 * Son sur la flèche suivant
+	 */
+	private Son suivant;
+	/**
+	 * Son sur le clic Go
+	 */
+	private Son go;
 	
 	/**
 	 * Clic sur la flèche de droite pour afficher le personnage suivant
@@ -55,6 +73,7 @@ public class ChoixPersonnage extends JFrame {
 	public void lblFlecheDroite_clic() {
 		numPerso = (numPerso%NBPERSOS)+1 ; // Incrémente le numéro du personnage, boucle entre 1 et NBPERSOS
 		affichePerso(); // Affiche le personnage sélectionné
+		suivant.play();
 	}
 	
 	/**
@@ -63,6 +82,7 @@ public class ChoixPersonnage extends JFrame {
 	public void lblFlecheGauche_clic() {
 		numPerso = ((numPerso+1)%NBPERSOS)+1; // Décrémente le numéro du personnage, boucle entre 1 et NBPERSOS
 		affichePerso(); // Affiche le personnage sélectionné
+		precedent.play();
 	}
 	
 	/**
@@ -76,6 +96,7 @@ public class ChoixPersonnage extends JFrame {
 		} else {
 			// Envoie le pseudo et le personnage choisi au contrôleur
 			this.controle.evenementChoixPersonnage(this.txtPseudo.getText(), numPerso);
+			go.play();
 		}
 	}
 	
@@ -208,6 +229,13 @@ public class ChoixPersonnage extends JFrame {
 		// Affiche le premier personnage au démarrage
 		this.numPerso = 1;
 		this.affichePerso();
+		
+		// récupération des sons
+		precedent = new Son(getClass().getClassLoader().getResource(SONPRECEDENT));
+		suivant = new Son(getClass().getClassLoader().getResource(SONSUIVANT));
+		go = new Son(getClass().getClassLoader().getResource(SONGO));
+		welcome = new Son(getClass().getClassLoader().getResource(SONWELCOME));
+		welcome.play();
 
 		// Positionne le focus sur la zone de saisie pour le pseudo
 		txtPseudo.requestFocus();

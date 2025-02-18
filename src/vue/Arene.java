@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import controleur.Global;
+import outils.son.Son;
 import controleur.Controle;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -50,7 +51,10 @@ public class Arene extends JFrame implements Global{
 	 * Permet de savoir si c'est une arène client ou serveur
 	 */
 	private Boolean client; 
-
+	/**
+	 * Tableau des sons de l'arène
+	 */
+	private Son[] lesSons = new Son[SON.length];
 
 	/**
 	 * Getter pour récupérer le panel des murs
@@ -121,6 +125,14 @@ public class Arene extends JFrame implements Global{
 	public void ajoutJLabelJeu(JLabel unJLabel) {
 		this.jpnJeu.add(unJLabel); // Ajout du joueur (ou objet) dans le panel
 		this.jpnJeu.repaint(); // Repeinture du panel pour afficher l'élément ajouté
+	}
+	
+	/**
+	 * Joue le son correspondant au numéro reçu
+	 * @param numSon numéro du son (0 : fight, 1 : hurt; 2 : death)
+	 */
+	public void joueSon(Integer numSon) {
+		this.lesSons[numSon].play();
 	}
 	
 	/**
@@ -255,6 +267,13 @@ public class Arene extends JFrame implements Global{
 		lblFond.setIcon(new ImageIcon(chemin));	// Définition de l'icône comme image de fond	 
 		lblFond.setBounds(0, 0, 800, 600); // Positionnement de l'image de fond
 		contentPane.add(lblFond);
+		
+		// gestion des sons pour le client
+		if (client) {
+			for (int k=0 ; k<SON.length ; k++) {
+				lesSons[k] = new Son(getClass().getClassLoader().getResource(SON[k])) ;
+			}
+		}
 		
 		// Récupération de l'instance du contrôleur pour communiquer avec la logique du jeu
 		this.controle = controle;
