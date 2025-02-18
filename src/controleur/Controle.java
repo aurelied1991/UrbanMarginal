@@ -199,8 +199,9 @@ public class Controle implements AsyncResponse, Global {
 			// Si l'ordre est "RECEPTION", traite l'information reçue, avec la méthode reception de la classe Jeu
 			this.leJeu.reception(connection, info);
 			break;
-		case "deconnexion":
-			// Gère la déconnexion (pas encore implémentée ici).
+		case DECONNEXION:
+			// Gère la déconnexion
+			this.leJeu.deconnexion(connection);
 			break;
 		}
 	}

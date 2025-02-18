@@ -94,7 +94,9 @@ public class JeuServeur extends Jeu implements Global{
 	 * Vide pour le moment mais devrait retirer un joueur du Hashtable lesJoueurs lors de sa deconnexion
 	 */
 	@Override
-	public void deconnexion() {
+	public void deconnexion(Connection connection) {
+		this.lesJoueurs.get(connection).departJoueur();
+		this.lesJoueurs.remove(connection);
 	}
 	
 	/**

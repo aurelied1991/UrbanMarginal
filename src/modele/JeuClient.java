@@ -74,8 +74,9 @@ public class JeuClient extends Jeu implements Global{
 	 * Elle affiche un message dans la console pour indiquer que la déconnexion a réussi
 	 */
 	@Override
-	public void deconnexion() {
+	public void deconnexion(Connection connection) {
 		System.out.println("Déconnexion réussie"); // Affiche un message pour informer que la déconnexion est réussie
+		System.exit(0);
 	}
 	
 	/**

@@ -31,7 +31,23 @@ public abstract class Objet {
 	public Integer getPosX() {
 		return posX;
 	}
+	
+	/**
+	 * Pour MurTest même si pas bonne pratique
+	 * @param posX position
+	 */
+	public void setPosX(Integer posX) {
+		this.posX = posX;
+	}
 
+	/**
+	 * Pour MurTest même si pas bonne pratique
+	 * @param posY position
+	 */
+	public void setPosY(Integer posY) {
+		this.posY = posY;
+	}
+	
 	/**
 	 * Getter
 	 * @return the posY la position X de l'objet

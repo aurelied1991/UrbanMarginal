@@ -149,31 +149,33 @@ public class Joueur extends Objet implements Global {
 	 * @param lesMurs liste des murs présents dans l'arène
 	 */
 	public void action(Integer action, Collection lesJoueurs, Collection lesMurs) {
-		switch(action) {
-		// Cas selon la direction avec touche appuyée : gauche, droite, haut, bas
-		case KeyEvent.VK_LEFT :
-			orientation = GAUCHE; 
-			posX = deplace(posX, action.intValue(), -PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_RIGHT :
-			orientation = DROITE;
-			posX = deplace(posX, action.intValue(), PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_UP :
-			posY = deplace(posY, action.intValue(), -PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_DOWN :
-			posY = deplace(posY,  action.intValue(), PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
-			break;
-		case KeyEvent.VK_SPACE:
-			// Controler que la boule n'est pas visible, et dans ce cas appelé la méthode tireBoule  sur la propriété boule (avec comme paramètres : attaquant pour éventuellement incrémenter sa vie s'il touche un autre joueur, mais aussi avec la collection lesMurs pour gérer les collisions)
-			if(!this.boule.getjLabel().isVisible()) {
+		if(!this.estMort()) {
+			switch(action) {
+			// Cas selon la direction avec touche appuyée : gauche, droite, haut, bas
+			case KeyEvent.VK_LEFT :
+				orientation = GAUCHE; 
+				posX = deplace(posX, action.intValue(), -PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_RIGHT :
+				orientation = DROITE;
+				posX = deplace(posX, action.intValue(), PAS, LARGEURARENE - LARGEURPERSO, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_UP :
+				posY = deplace(posY, action.intValue(), -PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_DOWN :
+				posY = deplace(posY,  action.intValue(), PAS, HAUTEURARENE - HAUTEURPERSO - HAUTEURMESSAGE, lesJoueurs, lesMurs);
+				break;
+			case KeyEvent.VK_SPACE:
+				// Controler que la boule n'est pas visible, et dans ce cas appelé la méthode tireBoule  sur la propriété boule (avec comme paramètres : attaquant pour éventuellement incrémenter sa vie s'il touche un autre joueur, mais aussi avec la collection lesMurs pour gérer les collisions)
+				if(!this.boule.getjLabel().isVisible()) {
 				this.boule.tireBoule(this, lesMurs);
-			}
-			break;
+				}
+				break;
 		}
 		//appel de la méthode affiche
 		this.affiche(MARCHE, this.etape);
+		}
 	}
 
 	/**
@@ -203,6 +205,7 @@ public class Joueur extends Objet implements Global {
 	 */
 	public void gainVie() {
 		this.vie += GAIN;
+		affiche(MARCHE, etape);
 	}
 	
 	/**
@@ -224,6 +227,11 @@ public class Joueur extends Objet implements Global {
 	 * Le joueur se déconnecte et disparait
 	 */
 	public void departJoueur() {
+		if(super.jLabel != null) {
+			super.jLabel.setVisible(false);
+			this.message.setVisible(false);
+			this.boule.getjLabel().setVisible(false);
+			this.jeuServeur.envoiJeuATous();
+		}
 	}
-	
 }

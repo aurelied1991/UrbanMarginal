@@ -41,8 +41,9 @@ public abstract class Jeu {
 	/**
 	 * Méthode abstraite pour fermer proprement la connexion avec l'ordinateur distant
 	 * Cette méthode sera implémentée dans les sous-classes pour gérer la déconnexion
+	 * @param connection objet de connexion pour savoir quel ordinateur s'est déconnecté
 	 */
-	public abstract void deconnexion() ;
+	public abstract void deconnexion(Connection connection) ;
 	
 	/**
 	 * Envoi d'une information vers un ordinateur distant via le contrôleur
