@@ -214,6 +214,18 @@ public interface Global {
 	 * nombre d'étapes (d'images) pour donner l'impresson de mourir
 	 */
 	int NBETAPESMORT = 2;
+	/**
+	 * Nombre de boules au départ pour chaque joueur
+	 */
+	int MAXBOULES = 10 ;
+	/**
+	 * Gain de deux boules lors du toucher d'un autre joueur
+	 */
+	int GAINBOULE = 2;
+	/**
+	 * Gain de quatre boules lors de la mort d'un autre joueur
+	 */
+	int GAINBOULEMORT = 4;
 
 	/**
 	 * Message "serveur" pour la création d'un serveur

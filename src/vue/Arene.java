@@ -3,6 +3,8 @@ package vue;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URL;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -261,8 +263,9 @@ public class Arene extends JFrame implements Global{
 		});
 		txtChat.setEditable(false); // Rendre la zone de chat non modifiable
 		jspChat.setViewportView(txtChat); // Ajout de la zone de texte dans le scrollpane
-		
 		JLabel lblFond = new JLabel("");
+		//URL resource = getClass().getClassLoader().getResource("media/fonds/fondarene.jpg");
+		//lblFond.setIcon(new ImageIcon(resource));
 		String chemin = "media/fonds/fondarene.jpg"; // Chemin de l'image de fond
 		lblFond.setIcon(new ImageIcon(chemin));	// Définition de l'icône comme image de fond	 
 		lblFond.setBounds(0, 0, 800, 600); // Positionnement de l'image de fond

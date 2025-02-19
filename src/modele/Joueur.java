@@ -46,6 +46,10 @@ public class Joueur extends Objet implements Global {
 	 * Message affiché sous le personnage (comprend le pseudo du joueur et sa vie restante)
 	 */
 	private JLabel message;
+	/**
+	 * Nombre de boules restantes au joueur
+	 */
+	private int nbBoules;
 	
 	
 	/**
@@ -58,6 +62,7 @@ public class Joueur extends Objet implements Global {
 		this.vie = MAXVIE; // Initialisation de la vie avec une valeur maximale
 		this.etape = 1; // L'animation commence à l'étape 1
 		this.orientation = DROITE; // L'orientation par défaut est vers la droite
+		this.nbBoules = MAXBOULES; // Initialisation du nombre de boules avec la valeur maximale
 	}
 	
 	/**
@@ -75,6 +80,22 @@ public class Joueur extends Objet implements Global {
 	public int getOrientation() {
 		return orientation;
 	}
+	
+	/**
+	 * Getter pour accéder à nbBoules depuis l'extérieur de la classe
+	 * @return nbBoules
+	 */
+	public int getNbBoules() {
+        return nbBoules; 
+    }
+	
+	/**
+	 * Setter pour modifier nbBoules depuis l'extérieur de la classe
+	 * @param nbBoules propriété
+	 */
+    public void setNbBoules(int nbBoules) {
+        this.nbBoules = nbBoules; // Setter pour modifier nbBoules
+    }
 
 
 	/**
@@ -136,8 +157,8 @@ public class Joueur extends Objet implements Global {
 	    File file = new File(chemin);
 	    super.jLabel.setIcon(new ImageIcon(file.getAbsolutePath()));
 		// Positionnement du message sous le personnage
-		this.message.setBounds(posX-10, posY+HAUTEURPERSO, LARGEURPERSO+10, HAUTEURMESSAGE);
-		this.message.setText(pseudo+" : "+vie);
+		this.message.setBounds(posX-50, posY+HAUTEURPERSO, LARGEURPERSO+100, HAUTEURMESSAGE);
+		this.message.setText(pseudo+" : "+vie + " pv, " + nbBoules + " boules");
 		// Envoi des modifications à tous les clients
 		this.jeuServeur.envoiJeuATous();
 	}
@@ -180,22 +201,35 @@ public class Joueur extends Objet implements Global {
 
 	/**
 	 * Gère le déplacement du personnage
+	 * @param position emplacement de départ du personnage
+	 * @param action direction gauche, droite, haut, bas
+	 * @param lepas valeur du déplacement
+	 * @param max valeur maximale
+	 * @param lesJoueurs collection de joueurs 
+	 * @param lesMurs collection de murs
+	 * @return position
 	 */
 	private int deplace(int position, int action, int lepas, int max, Collection lesJoueurs, Collection lesMurs ) { 		
 		int ancpos = position ;
 		position += lepas ;
-		position = Math.max(position, 0) ;
-		position = Math.min(position,  max) ;
+		// Au lieu de limiter la position entre 0 et max, on fait une transition
+		 if (position < 0) {
+		        position = max;  // Si le personnage sort à gauche ou en haut, il réapparaît à max (le bord droit ou en bas) 
+		 } else if (position > max) {
+		        position = 0;    // Si le personnage sort à droite ou en bas, il réapparaît à 0 (le bord gauche ou en haut)
+		 }
+
+		//Mise à jour de la position du joueur selon la direction
 		if (action==KeyEvent.VK_LEFT || action==KeyEvent.VK_RIGHT) {
 			posX = position ;
 		}else{
 			posY = position ;
 		}
-		// controle s'il y a collision, dans ce cas, le personnage reste sur place
+		// controle s'il y a une collision avec les joueurs ou les murs, et si oui, le personnage ne bouge pas
 		if (toucheCollectionObjets(lesJoueurs) != null || toucheCollectionObjets(lesMurs) != null) {
 			position = ancpos ;
 		}
-		// passe à l'étape suivante de l'animation de la marche
+		// Etape suivante dans l'animation de marche du personnage
 		etape = (etape % NBETAPESMARCHE) + 1 ;
 		return position ;
 	}
@@ -213,6 +247,22 @@ public class Joueur extends Objet implements Global {
 	 */
 	public void perteVie() {
 		this.vie = Math.max(0, this.vie - PERTE);
+	}
+	
+	/**
+	 * Gain de boules après avoir touché un autre joueur
+	 */
+	public void gainBoulesBlessure() {
+	    this.nbBoules += GAINBOULE;
+	    affiche(MARCHE, etape);  // Mets à jour l'affichage du joueur avec le nombre de boules
+	}
+	
+	/**
+	 * Gain de boules après avoir touché un autre joueur et avoir provoqué sa mort
+	 */
+	public void gainBoulesMort() {
+	    this.nbBoules += GAINBOULEMORT;
+	    affiche(MARCHE, etape);  // Mets à jour l'affichage du joueur avec le nombre de boules
 	}
 	
 	/**

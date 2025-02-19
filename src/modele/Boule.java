@@ -61,6 +61,11 @@ public class Boule extends Objet implements Global, Runnable{
 		this.jeuServeur.envoi(FIGHT);
 		this.lesMurs = lesMurs;
 		this.attaquant = attaquant;
+		// Décrémenter le nombre total de boules de 1 du joueur qui attaque
+	    int nbBoulesActuel = attaquant.getNbBoules();
+	    if (nbBoulesActuel > 0) {
+	        attaquant.setNbBoules(nbBoulesActuel - 1);  
+	    }
 		// Positionnement de la boule
 		if(attaquant.getOrientation()==GAUCHE) {
 			posX = attaquant.getPosX() - LARGEURBOULE - 1 ;
@@ -109,13 +114,17 @@ public class Boule extends Objet implements Global, Runnable{
 			this.jeuServeur.envoi(HURT);
 			victime.perteVie();
 			attaquant.gainVie();
+
 			// Boucle pour jouer l'animation du personnage blessé (en appelant à chaque fois la méthode affiche en lui envoyant en premier paramètre "touche" (à définir en constante) et en second paramètre le numéro de l'étape (l'indice de la boucle)
 			for(int k=1 ; k<=NBETAPESTOUCHE ; k++) {
 				victime.affiche(TOUCHE, k);
 				pause(80, 0);
 			}
-			// contrôle si la victime est morte
-			if(victime.estMort()) {
+			// contrôle si la victime est encore en vie
+			if(!victime.estMort()) {
+				// La victime est blessée mais reste en vie : on applique le bonus de boules en cas de blessures
+		        attaquant.gainBoulesBlessure();
+		    } else {
 				// envoi du son DEATH
 				this.jeuServeur.envoi(DEATH);
 				// Si elle est morte, jouer l'animation du personnage mort
@@ -123,7 +132,8 @@ public class Boule extends Objet implements Global, Runnable{
 					victime.affiche(MORT, k);
 					pause(80, 0);
 				}
-			} else {
+				// Ajouter des boules au joueur attaquant en cas de mort
+				attaquant.gainBoulesMort();
 				// Si elle n'est pas morte, remettre le joueur dans la position de repos (marche)
 				victime.affiche(MARCHE, 1);
 			}
